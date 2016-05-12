@@ -2,7 +2,7 @@
 Convert all FLAC files in a directory tree to MP3 files
 
 ## Details
-This program converts all FLAC files in a directory tree into MP# files, which
+This program converts all FLAC files in a directory tree into MP3 files, which
 can be output to the same directory tree or a parallel one rooted elsewhere. The
 program will create all directories it needs to in the destination directory
 tree. As a simple example, if you point the program at a directory containing
@@ -18,4 +18,9 @@ The command-line programs "flac", "metaflac", and "lame" must be installed and
 in the path.
 
 The FLAC files must have tags, which will be set on the converted files too. The
-required flags are: artist, title, genre, album, tracknumber, and date. 
+required flags are: artist, title, genre, album, tracknumber, and date.
+
+The program will run as many converters in parallel as there are cores. It
+outputs to the command line and uses terminal escape codes to output in color.
+Right now it doesn't bother checking to see if it's outputting to a tty before
+using the codes.
