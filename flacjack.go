@@ -238,6 +238,8 @@ func convertFile(ix int, fn string, outputch chan Progress) {
 // Get the tags from a flac file, in a dictionary.
 func flacTags(flacfile string) (tags map[string]string, err error) {
 	tags = make(map[string]string)
+	// Allow genre to be missing
+	tags["genre"] = "None"
 	cmd := exec.Command("metaflac", "--export-tags-to=-", "--no-utf8-convert", flacfile)
 	stdout, err := cmd.StdoutPipe()
 	err = cmd.Start()
@@ -251,7 +253,11 @@ func flacTags(flacfile string) (tags map[string]string, err error) {
 		line := strings.Replace(scanner.Text(), `"`, `'`, -1)
 		tag := strings.Split(line, "=")
 		key := strings.ToLower(tag[0])
-		value := tag[1]
+		value := ""
+		// Allow blank values
+		if len(tag) > 1 {
+			value = tag[1]
+		}
 		tags[key] = value
 	}
 	err = cmd.Wait()
@@ -285,7 +291,7 @@ func decodeFlac(fn string) (string, error) {
 	return ofile.Name(), nil
 }
 
-// Encode a wav file to mp3 by calling faac.
+// Encode a wav file to mp3 by calling lame.
 func encodeMp3(inf, outf string, tags map[string]string) error {
 	outdir := path.Dir(outf)
 	err := os.MkdirAll(outdir, 0755)
