@@ -1,4 +1,4 @@
-# flacjack
+# flacjack [![Go Report Card](https://goreportcard.com/badge/github.com/trapgate/flacjack)](https://goreportcard.com/report/github.com/trapgate/flacjack)
 Convert all FLAC files in a directory tree to MP3 files
 
 ## Details
